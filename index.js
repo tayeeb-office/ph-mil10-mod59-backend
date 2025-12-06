@@ -34,15 +34,6 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/services", async (req, res) => {
-        const{category} = req.query;
-        const query = {}
-        if(category){
-            query.category = category;
-        }
-      const result = await petServices.find(query).toArray();
-      res.send(result);
-    });
 
     app.get("/services/:id", async (req, res) => {
       const id = req.params.id;

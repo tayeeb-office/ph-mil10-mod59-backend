@@ -99,22 +99,7 @@ app.post("/orders", async (req, res) => {
   }
 });
 
-app.get("/orders", async (req, res) => {
-  try {
-    const email = req.query.email;
-    const query = {};
 
-    if (email) {
-      query.email = email;
-    }
-
-    const orders = await ordercollection.find(query).toArray();
-    res.send(orders);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({ message: "Failed to fetch orders" });
-  }
-});
 
 
     // await client.db("admin").command({ ping: 1 });

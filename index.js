@@ -53,7 +53,23 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/my-services", async (req, res) => {
+      const email = req.query.email;
 
+      const query = { email: email };
+      const result = await petServices.find(query).toArray();
+
+      res.send(result);
+    });
+
+    app.put("/update/:id", async (req, res) => {
+      const id = req.params.id;
+      const data = req.body;
+      const query = { _id: new ObjectId(id) };
+      const updateDoc = { $set: data };
+      const result = await petServices.updateOne(query, updateDoc);
+      res.send(result);
+    });
 
     app.delete("/delete/:id", async (req, res) => {
   try {

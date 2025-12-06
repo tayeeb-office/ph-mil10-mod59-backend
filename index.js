@@ -86,23 +86,36 @@ async function run() {
 app.post("/orders", async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
+
+    if (!data.email) {
+      return res.status(400).send({ message: "User email is required" });
+    }
+
     const result = await ordercollection.insertOne(data);
     res.status(201).send(result);
   } catch (err) {
     console.error(err);
+    res.status(500).send({ message: "Failed to place order" });
   }
 });
 
 app.get("/orders", async (req, res) => {
   try {
-    const orders = await ordercollection.find({}).toArray();
+    const email = req.query.email;
+    const query = {};
+
+    if (email) {
+      query.email = email;
+    }
+
+    const orders = await ordercollection.find(query).toArray();
     res.send(orders);
   } catch (err) {
     console.error(err);
-
+    res.status(500).send({ message: "Failed to fetch orders" });
   }
 });
+
 
     // await client.db("admin").command({ ping: 1 });
     console.log(
